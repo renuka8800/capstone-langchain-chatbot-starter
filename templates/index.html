@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Thinkbot</title>
+    <title>ThinkBot</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="static/style.css">
 </head>
 <body>
     <div class="container mt-5">
-        <div id="chat-container" class="chat-container"></div>
+        <h2 class="text-center mb-4">ThinkBot Chatbot</h2>
+
+        <div id="chat-container" class="chat-container mb-3"></div>
+
         <div class="row">
-            <div class="col">
-                <div>
-                    <select class="form-control" id="function-select">
-                        <option value="answer">Answer as Chatbot</option>
-                    </select>
-                </div>
+            <div class="col-md-4">
+                <select class="form-control" id="function-select">
+                    <option value="answer">Answer as Chatbot</option>
+                    <option value="kbanswer">Answer from Knowledge Base</option>
+                    <option value="search">Search Knowledge Base</option>
+                </select>
             </div>
-            <div class="col">
-                <div class="input-group-append">
-                    <input type="text" id="message-input" placeholder="Type your message here...">
-                    <button id="send-btn" class="btn btn-primary">Send</button>
-                </div>
+
+            <div class="col-md-6">
+                <input class="form-control" type="text" id="message-input" placeholder="Type your message here...">
+            </div>
+
+            <div class="col-md-2">
+                <button id="send-btn" class="btn btn-primary btn-block">Send</button>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
     <script src="static/main.js"></script>
 </body>
 </html>

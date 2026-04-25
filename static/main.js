@@ -1,82 +1,43 @@
-function sendMessage() {
-    let messageInput = document.getElementById('message-input');
-    let message = messageInput.value;
-    displayMessage('user', message)
-    
-    // Get the selected function from the dropdown menu
-    let functionSelect = document.getElementById('function-select');
-    let selectedFunction = functionSelect.value;
-    
-    // Send an AJAX request to the Flask API endpoint based on the selected function
-    let xhr = new XMLHttpRequest();
-    let url;
+document.getElementById("send-btn").addEventListener("click", async () => {
+    const message = document.getElementById("message-input").value;
+    const selectedFunction = document.getElementById("function-select").value;
+    const chatContainer = document.getElementById("chat-container");
 
-    switch (selectedFunction) {
-        case 'search':
-            url = '/search';
-            break;
-        case 'kbanswer':
-            url = '/kbanswer';
-            break;
-        case 'answer':
-            url = '/answer';
-            break;
-        default:
-            url = '/answer';
-    }
-    
-    xhr.open('POST', url);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            let response = JSON.parse(xhr.responseText);
-            displayMessage('assistant', response.message);
-        }
-    };
-    xhr.send(JSON.stringify({message: message}));
-    
-    // Clear the input field
-    messageInput.value = '';
-}
+    if (!message) return;
 
-function displayMessage(sender, message) {
-    let chatContainer = document.getElementById('chat-container');
-    let messageDiv = document.createElement('div');
+    // Show user message
+    const userMsg = document.createElement("div");
+    userMsg.innerHTML = `<b>User:</b> ${message}`;
+    chatContainer.appendChild(userMsg);
 
-    if (sender === 'assistant') {
-        messageDiv.classList.add('assistant-message');
-        
-        // Create a span for the Chatbot text
-        let chatbotSpan = document.createElement('span');
-        chatbotSpan.innerHTML = "<b>Chatbot:</b> ";
-        messageDiv.appendChild(chatbotSpan);
-        
-        // Append the message to the Chatbot span
-        messageDiv.innerHTML += message;
-    } else {
-        messageDiv.classList.add('user-message');
+    let url = "";
 
-        let userSpan = document.createElement('span');
-        userSpan.innerHTML = "<b>User:</b> ";
-        messageDiv.appendChild(userSpan);
-        
-        // Append the message to the span
-        messageDiv.innerHTML += message;
+    if (selectedFunction === "answer") {
+        url = "/answer";
+    } else if (selectedFunction === "kbanswer") {
+        url = "/kbanswer";
+    } else if (selectedFunction === "search") {
+        url = "/search";
     }
 
-    // Create a timestamp element
-    let timestamp = document.createElement('span');
-    timestamp.classList.add('timestamp');
-    let currentTime = new Date().toLocaleTimeString();
-    timestamp.innerText = " ["+ currentTime+"]";
-    messageDiv.appendChild(timestamp);
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: message })
+        });
 
-    chatContainer.appendChild(messageDiv);
+        const data = await response.json();
 
-    // Scroll to the bottom of the chat container
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-}
+        const botMsg = document.createElement("div");
+        botMsg.innerHTML = `<b>Chatbot:</b> ${data.message}`;
+        chatContainer.appendChild(botMsg);
 
-// Handle button click event
-let sendButton = document.getElementById('send-btn');
-sendButton.addEventListener('click', sendMessage);
+    } catch (error) {
+        console.error(error);
+    }
+
+    document.getElementById("message-input").value = "";
+});

@@ -1,0 +1,9 @@
+
+ThinkBot is a LangChain chatbot application.
+
+It has three features:
+1. Answer as Chatbot
+2. Answer from Knowledge Base
+3. Search Knowledge Base
+
+The app uses Flask, LangChain, Chroma database, Cohere LLM, and RetrievalQA.
