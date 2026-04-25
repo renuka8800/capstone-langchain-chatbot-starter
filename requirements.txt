@@ -6,5 +6,5 @@ langchain-chroma==0.2.6
 langchain-cohere==0.4.6
 langchain-community==0.3.30
 langchain-core==0.3.77
-gunicorn==19.3.0
+gunicorn==23.0.0
 setuptools==80.9.0
